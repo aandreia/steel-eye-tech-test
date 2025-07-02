@@ -1,0 +1,35 @@
+# .pre-commit-config.yaml
+
+repos:
+  # Black (Code Formatter)
+  - repo: https://github.com/psf/black
+    rev: 24.4.2 # Use a specific version (check Black's GitHub for the latest stable release)
+    hooks:
+      - id: black
+        # Optional: Specify target Python versions if needed
+        # args: [--target-version=py310]
+
+  # Ruff (Linter and Formatter)
+  # Ruff can act as both a linter and a formatter, potentially replacing Black.
+  # If you want Ruff to handle formatting, you might remove the Black hook above.
+  # However, it's common to use Black for formatting and Ruff for linting.
+  # Below, Ruff is configured primarily as a linter.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.8 # Use a specific version (check Ruff's GitHub for the latest stable release)
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix] # --fix attempts to auto-fix; --exit-non-zero-on-fix fails if fixes were applied (encourages clean code)
+      - id: ruff-format # This hook specifically runs Ruff's formatter
+        # If you're using Black above, you might omit or disable this.
+        # If you prefer Ruff for formatting, keep this and consider removing the Black hook.
+
+  # Mypy (Static Type Checker)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0 # Use a specific version (check mirrors-mypy GitHub for the latest release)
+    hooks:
+      - id: mypy
+        # Optional: Specify additional arguments for mypy
+        # You'll likely need to tell mypy where your source code is.
+        # Replace 'src' with the actual path to your source code if different.
+        args: [--ignore-missing-imports, --show-error-codes, --strict] # 'src/' points mypy to check files within the src directory
+        # language_version: python3.11 # Optional: Specify your Python version
